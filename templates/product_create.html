@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+
+{% block title %}Create Product{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link active">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <a href="{{ url_for('products') }}" class="btn btn-outline-blue mb-3">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Products
+                </a>
+            </div>
+            
+            <h1 class="page-title mb-4">Create New Product</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <form action="#" method="post" class="row g-3">
+                        <!-- Basic Information -->
+                        <div class="col-12">
+                            <h5 class="mb-3">Basic Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="productName" class="form-label">Product Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="productName" name="productName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="productCategory" class="form-label">Category</label>
+                                <select class="form-select" id="productCategory" name="productCategory">
+                                    <option value="">Select Category</option>
+                                    <option value="category1">Category 1</option>
+                                    <option value="category2">Category 2</option>
+                                    <option value="category3">Category 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="productDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription" rows="4"></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Pricing and Inventory -->
+                        <div class="col-12 mt-4">
+                            <h5 class="mb-3">Pricing and Inventory</h5>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="productPrice" class="form-label">Base Price <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="productMinQuantity" class="form-label">Minimum Quantity</label>
+                                <input type="number" class="form-control" id="productMinQuantity" name="productMinQuantity" min="1" value="1">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="productStock" class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" id="productStock" name="productStock" min="0">
+                            </div>
+                        </div>
+                        
+                        <!-- Quantity Pricing -->
+                        <div class="col-12 mt-4">
+                            <h5 class="mb-3">Quantity Pricing</h5>
+                            <p class="text-muted small">Set special prices for different quantity ranges</p>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Quantity Range</label>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" placeholder="Min" min="2">
+                                    <span class="input-group-text">-</span>
+                                    <input type="number" class="form-control" placeholder="Max">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Price per Unit</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" placeholder="Price" min="0" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="button" class="btn btn-outline-blue mb-3">
+                                <i class="fas fa-plus me-2"></i> Add Range
+                            </button>
+                        </div>
+                        
+                        <!-- Product Image -->
+                        <div class="col-12 mt-4">
+                            <h5 class="mb-3">Product Image</h5>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="productImage" class="form-label">Upload Image</label>
+                                <input type="file" class="form-control" id="productImage" name="productImage">
+                                <div class="form-text">Recommended size: 800x600 pixels, max 2MB</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Status -->
+                        <div class="col-12 mt-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="productStatus" name="productStatus" checked>
+                                <label class="form-check-label" for="productStatus">Publish product immediately</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="col-12 mt-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary me-2">Cancel</button>
+                            <button type="submit" class="btn btn-blue">Create Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

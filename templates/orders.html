@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link active">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('categories') }}" class="nav-link">
+                            <i class="fas fa-tags"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('announcements') }}" class="nav-link">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Announcements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <h1 class="page-title">Orders</h1>
+                <div class="user-dropdown">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">{{ session.get('username', 'Admin') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filters and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form action="{{ url_for('orders') }}" method="get">
+                        <div class="row">
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <select name="status" class="form-select">
+                                    <option value="">All Statuses</option>
+                                    <option value="paid">Paid</option>
+                                    <option value="unpaid">Unpaid</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <input type="date" name="date" class="form-control" placeholder="Filter by date">
+                            </div>
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <input type="text" name="order_id" class="form-control" placeholder="Search by Order ID">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" name="telegram_id" class="form-control" placeholder="Search by Telegram ID">
+                                    <button class="btn btn-blue" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">All Orders</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Telegram ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="window.location='{{ url_for('order_details', order_id='ORD-001') }}'">
+                                <td>ORD-001</td>
+                                <td>@user123</td>
+                                <td>John Doe</td>
+                                <td>2023-07-15</td>
+                                <td><span class="status-badge status-unpaid">Unpaid</span></td>
+                                <td>$120.00</td>
+                            </tr>
+                            <tr onclick="window.location='{{ url_for('order_details', order_id='ORD-002') }}'">
+                                <td>ORD-002</td>
+                                <td>@user456</td>
+                                <td>Jane Smith</td>
+                                <td>2023-07-14</td>
+                                <td><span class="status-badge status-paid">Paid</span></td>
+                                <td>$85.50</td>
+                            </tr>
+                            <tr onclick="window.location='{{ url_for('order_details', order_id='ORD-003') }}'">
+                                <td>ORD-003</td>
+                                <td>@user789</td>
+                                <td>Robert Johnson</td>
+                                <td>2023-07-13</td>
+                                <td><span class="status-badge status-processing">Processing</span></td>
+                                <td>$210.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

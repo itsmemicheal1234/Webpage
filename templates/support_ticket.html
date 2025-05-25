@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block title %}Support Ticket{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link active">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <a href="{{ url_for('support') }}" class="btn btn-outline-blue mb-3">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Tickets
+                </a>
+            </div>
+            
+            <!-- Ticket Header -->
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                <div>
+                    <h1 class="page-title">Ticket #{{ ticket_id }}</h1>
+                    <p class="text-muted">Created on July 15, 2023 - 10:30 AM</p>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-blue dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Change Status
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Open</a></li>
+                            <li><a class="dropdown-item" href="#">In Progress</a></li>
+                            <li><a class="dropdown-item" href="#">Resolved</a></li>
+                            <li><a class="dropdown-item" href="#">Closed</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-danger ms-2">Close Ticket</button>
+                </div>
+            </div>
+            
+            <!-- Ticket Details -->
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Order not received</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>I placed an order last week (Order #ORD-001) but haven't received it yet. The tracking information hasn't been updated in 3 days. Could you please check the status of my order?</p>
+                            <div class="mt-3">
+                                <span class="badge bg-secondary me-2">Order #ORD-001</span>
+                                <span class="badge bg-secondary">Shipping</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Customer Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="detail-group">
+                                <div class="detail-label">Telegram ID</div>
+                                <div class="detail-value">{{ telegram_id|default('@customer') }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Ticket Date</div>
+                                <div class="detail-value">{{ ticket_date|default('July 15, 2023') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Conversation</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="chat-container">
+                        <div class="chat-messages">
+                            <!-- Customer Message -->
+                            <div class="message customer">
+                                <div class="message-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-sender">John Doe</div>
+                                    <div class="message-text">I placed an order last week (Order #ORD-001) but haven't received it yet. The tracking information hasn't been updated in 3 days. Could you please check the status of my order?</div>
+                                    <div class="message-time">July 15, 2023 - 10:30 AM</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Admin Message Template (Hidden) -->
+                            <div class="message admin d-none" id="admin-message-template">
+                                <div class="message-avatar">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-sender">Admin</div>
+                                    <div class="message-text"></div>
+                                    <div class="message-time"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input">
+                            <textarea placeholder="Type your message here..." class="form-control"></textarea>
+                            <button class="btn btn-blue">
+                                <i class="fas fa-paper-plane me-2"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+{% endblock %}

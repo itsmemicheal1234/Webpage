@@ -1,0 +1,170 @@
+{% extends "layout.html" %}
+
+{% block title %}Support Tickets{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link active">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <h1 class="page-title">Support Tickets</h1>
+                <div class="user-dropdown">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">{{ session.get('username', 'Admin') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filters and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <select class="form-select">
+                                <option value="">All Statuses</option>
+                                <option value="open">Open</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <select class="form-select">
+                                <option value="">All Priorities</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search tickets...">
+                                <button class="btn btn-blue" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tickets Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">All Tickets</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer</th>
+                                <th>Subject</th>
+                                <th>Created</th>
+                                <th>Last Update</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="window.location='{{ url_for('support_ticket', ticket_id='TKT-001') }}'">
+                                <td>TKT-001</td>
+                                <td>John Doe</td>
+                                <td>Order not received</td>
+                                <td>2023-07-15</td>
+                                <td>2023-07-15</td>
+                                <td><span class="status-badge status-unpaid">Open</span></td>
+                                <td><span class="status-badge status-processing">Medium</span></td>
+                            </tr>
+                            <tr onclick="window.location='{{ url_for('support_ticket', ticket_id='TKT-002') }}'">
+                                <td>TKT-002</td>
+                                <td>Jane Smith</td>
+                                <td>Wrong product received</td>
+                                <td>2023-07-14</td>
+                                <td>2023-07-15</td>
+                                <td><span class="status-badge status-processing">In Progress</span></td>
+                                <td><span class="status-badge status-unpaid">High</span></td>
+                            </tr>
+                            <tr onclick="window.location='{{ url_for('support_ticket', ticket_id='TKT-003') }}'">
+                                <td>TKT-003</td>
+                                <td>Robert Johnson</td>
+                                <td>Question about shipping</td>
+                                <td>2023-07-12</td>
+                                <td>2023-07-14</td>
+                                <td><span class="status-badge status-paid">Resolved</span></td>
+                                <td><span class="status-badge status-processing">Low</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

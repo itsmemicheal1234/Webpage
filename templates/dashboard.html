@@ -1,0 +1,186 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('categories') }}" class="nav-link">
+                            <i class="fas fa-tags"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('announcements') }}" class="nav-link">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Announcements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="user-dropdown">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">{{ session.get('username', 'Admin') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Summary Cards -->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle me-3" style="width: 48px; height: 48px; background-color: hsla(var(--primary-color), 0.1); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-shopping-cart" style="color: hsl(var(--primary-color));"></i>
+                                </div>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 text-muted">Total Orders</h6>
+                                    <h2 class="card-title mb-0">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle me-3" style="width: 48px; height: 48px; background-color: hsla(var(--success), 0.1); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-money-bill-wave" style="color: hsl(var(--success));"></i>
+                                </div>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 text-muted">Paid Orders</h6>
+                                    <h2 class="card-title mb-0">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle me-3" style="width: 48px; height: 48px; background-color: hsla(var(--danger), 0.1); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-clock" style="color: hsl(var(--danger));"></i>
+                                </div>
+                                <div>
+                                    <h6 class="card-subtitle mb-1 text-muted">Pending Orders</h6>
+                                    <h2 class="card-title mb-0">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Orders -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Recent Orders</h5>
+                    <a href="{{ url_for('orders') }}" class="btn btn-sm btn-outline-blue">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="text-center py-4">No orders found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Support Tickets -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title">Support Tickets</h5>
+                    <a href="{{ url_for('support') }}" class="btn btn-sm btn-outline-blue">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="text-center py-4">No support tickets found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

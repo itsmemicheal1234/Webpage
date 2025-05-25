@@ -1,0 +1,267 @@
+{% extends "layout.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link active">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('categories') }}" class="nav-link">
+                            <i class="fas fa-tags"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('announcements') }}" class="nav-link">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Announcements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <a href="{{ url_for('orders') }}" class="btn btn-outline-blue mb-3">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Orders
+                </a>
+            </div>
+            
+            <!-- Order Details Header -->
+            <div class="order-detail-header">
+                <div>
+                    <h1 class="page-title">Order Details</h1>
+                    <span class="order-id">Order ID: {{ order_id }}</span>
+                    {% if order_status == 'unpaid' %}
+                    <span class="order-status status-badge status-unpaid">Unpaid</span>
+                    {% elif order_status == 'paid' %}
+                    <span class="order-status status-badge status-paid">Paid</span>
+                    {% elif order_status == 'dispatched' %}
+                    <span class="order-status status-badge status-processing">Dispatched</span>
+                    {% endif %}
+                </div>
+                <div class="order-actions">
+                    {% if order_status == 'unpaid' %}
+                    <form action="{{ url_for('order_details', order_id=order_id) }}" method="post" class="d-inline">
+                        <input type="hidden" name="action" value="mark_paid">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check me-2"></i> Mark as Paid
+                        </button>
+                    </form>
+                    {% elif order_status == 'paid' %}
+                    <form action="{{ url_for('order_details', order_id=order_id) }}" method="post" class="d-inline">
+                        <input type="hidden" name="action" value="dispatch">
+                        <button type="submit" class="btn btn-blue">
+                            <i class="fas fa-truck me-2"></i> Dispatch Order
+                        </button>
+                    </form>
+                    {% elif order_status == 'dispatched' %}
+                    <span class="btn btn-outline-secondary disabled">
+                        <i class="fas fa-check me-2"></i> Order Dispatched
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Customer Information -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Customer Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="detail-group">
+                                <div class="detail-label">Telegram ID</div>
+                                <div class="detail-value">{{ telegram_id|default('@customer') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Delivery Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="detail-group">
+                                <div class="detail-label">Delivery Address</div>
+                                <div class="detail-value">{{ delivery_address|default('Delivery address will be shown here') }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Delivery Notes</div>
+                                <div class="detail-value">{{ delivery_notes|default('No delivery notes provided') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Payment Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <div class="detail-label">Payment Method</div>
+                                <div class="detail-value">Cryptocurrency</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Wallet Address</div>
+                                <div class="detail-value">0x1234567890abcdef1234567890abcdef12345678</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">
+                                    {% if order_status == 'unpaid' %}
+                                    Pending Payment
+                                    {% elif order_status == 'paid' %}
+                                    Payment Confirmed
+                                    {% elif order_status == 'dispatched' %}
+                                    Payment Confirmed - Order Dispatched
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Date</div>
+                                <div class="detail-value">July 15, 2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Order Items</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Product Name 1</td>
+                                <td>2</td>
+                                <td>$45.00</td>
+                                <td>$90.00</td>
+                            </tr>
+                            <tr>
+                                <td>Product Name 2</td>
+                                <td>1</td>
+                                <td>$30.00</td>
+                                <td>$30.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Subtotal</td>
+                                <td>$120.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Shipping</td>
+                                <td>$0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Total</td>
+                                <td class="fw-bold">$120.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Order Notes -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Order Notes</h5>
+                </div>
+                <div class="card-body">
+                    <p>Please deliver during evening hours. Ring the doorbell twice.</p>
+                </div>
+            </div>
+            
+            <!-- Order Timeline -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Order Timeline</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">Order Placed</div>
+                                <div class="text-muted">July 15, 2023 - 10:30 AM</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">Awaiting Payment</div>
+                                <div class="text-muted">July 15, 2023 - 10:30 AM</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

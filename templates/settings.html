@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-auto sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">Admin</h1>
+            </div>
+            <div class="sidebar-nav">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('orders') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('products') }}" class="nav-link">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('support') }}" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('settings') }}" class="nav-link active">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col main-content">
+            <div class="header">
+                <h1 class="page-title">Settings</h1>
+                <button type="submit" class="btn btn-blue">
+                    <i class="fas fa-save me-2"></i> Save Changes
+                </button>
+            </div>
+            
+            <!-- Settings Tabs -->
+            <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">
+                        General
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="shop-tab" data-bs-toggle="tab" data-bs-target="#shop" type="button" role="tab">
+                        Shop
+                    </button>
+                </li>
+                
+            </ul>
+            
+            <div class="tab-content" id="settingsTabsContent">
+                <!-- General Settings -->
+                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Holiday Mode</div>
+                                    <div class="setting-description">Enable holiday mode to temporarily close your shop</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Maintenance Mode</div>
+                                    <div class="setting-description">Put your shop in maintenance mode</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Currency</div>
+                                    <div class="setting-description">Set your shop's primary currency</div>
+                                </div>
+                                <select class="form-select" style="width: 200px;">
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="EUR">EUR - Euro</option>
+                                    <option value="GBP">GBP - British Pound</option>
+                                </select>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Time Zone</div>
+                                    <div class="setting-description">Set your local time zone</div>
+                                </div>
+                                <select class="form-select" style="width: 200px;">
+                                    <option value="UTC">UTC (Coordinated Universal Time)</option>
+                                    <option value="EST">EST (Eastern Standard Time)</option>
+                                    <option value="PST">PST (Pacific Standard Time)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shop Settings -->
+                <div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label class="form-label">Shop Name</label>
+                                <input type="text" class="form-control" value="Your Shop Name">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Shop Description</label>
+                                <textarea class="form-control" rows="4">Welcome to our shop! We offer high-quality products at competitive prices. Our mission is to provide excellent customer service and fast shipping.</textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Shop Logo</label>
+                                <div class="input-group mb-3">
+                                    <input type="file" class="form-control" id="inputGroupFile01">
+                                    <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                                </div>
+                                <div class="form-text">Recommended size: 200x200 pixels</div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
